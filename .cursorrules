@@ -52,11 +52,33 @@
 
 ### 3. Core Features - Customer Side [ ]
 
+- [ ] Home layout:
+    -Create 'home' folder in 'app' folder
+     -Header with logo, search bar and navigation
+     -Footer with links and social media icons
+- [ ] Navbar
+- [ ] Footer
+- [ ] Sidebar
+- [ ]Product 
+- [ ] Product card
+- [ ] Product details
+- [ ] Product page
+- [ ] Home page
+- [ ] Product page
+- [ ] Cart page
+- [ ] Checkout page
+- [ ] Login page
+- [ ] Register page
 - [ ] Homepage:
-  - Featured products
-  - Categories navigation
-  - Search functionality
-  - Filters and sorting
+     - Featured products
+     - Latest products
+- [ ] Product Catalog:
+     -Sidebar with categories and filter
+     -Search results
+     -Product Grid
+     - Categories navigation
+     - Search functionality
+     - Filters and sorting
 - [ ] Product pages:
   - Product details
   - Image gallery
