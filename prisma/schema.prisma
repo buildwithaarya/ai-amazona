@@ -1,0 +1,104 @@
+// Prisma schema for ai-amazona
+// Datasource and generator
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+  reviews   Review[]
+  cart      Cart?
+  // Add OAuth fields if needed
+}
+
+// Product model
+model Product {
+  id          String     @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  imageUrl    String
+  stock       Int
+  category    Category   @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  reviews     Review[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  orderItems  OrderItem[]
+  cartItems   CartItem[]
+}
+
+// Category model
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  products Product[]
+}
+
+// Order model
+model Order {
+  id         String      @id @default(uuid())
+  user       User        @relation(fields: [userId], references: [id])
+  userId     String
+  items      OrderItem[]
+  total      Float
+  status     String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+// OrderItem model (for products in an order)
+model OrderItem {
+  id        String   @id @default(uuid())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+  price     Float
+}
+
+// Review model
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  createdAt DateTime @default(now())
+}
+
+// Cart model
+model Cart {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  items     CartItem[]
+  updatedAt DateTime @updatedAt
+}
+
+// CartItem model (for products in a cart)
+model CartItem {
+  id        String   @id @default(uuid())
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  cartId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+} 
