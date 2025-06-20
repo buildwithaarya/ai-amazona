@@ -1,25 +1,28 @@
 import { PrismaClient } from '@prisma/client';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
   // Seed users
+  const password1 = await hash('password123', 10);
   const user1 = await prisma.user.upsert({
     where: { email: 'alice@example.com' },
     update: {},
     create: {
       email: 'alice@example.com',
-      password: 'password123', // In production, use hashed passwords!
+      password: password1, // Hashed password
       name: 'Alice Smith',
       image: null,
     },
   });
+  const password2 = await hash('password123', 10);
   const user2 = await prisma.user.upsert({
     where: { email: 'bob@example.com' },
     update: {},
     create: {
       email: 'bob@example.com',
-      password: 'password123',
+      password: password2, // Hashed password
       name: 'Bob Johnson',
       image: null,
     },

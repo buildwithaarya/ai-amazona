@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
 import { PrismaClient } from "@prisma/client";
 import { compare } from "bcryptjs";
 
@@ -17,11 +19,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null;
         // Find user by email
         const user = await prisma.user.findUnique({ where: { email: credentials.email as string } });
-        if (!user) return null;
-        // Compare password (plain text for now, use bcrypt in production)
-        // If you want to use bcrypt, hash passwords in your seed and registration logic
-        // const isValid = await compare(credentials.password, user.password);
-        const isValid = credentials.password === user.password;
+        if (!user || typeof user.password !== "string" || typeof credentials.password !== "string") return null;
+        // Compare password using bcrypt
+        const isValid = await compare(credentials.password, user.password);
         if (!isValid) return null;
         return {
           id: user.id,
@@ -31,7 +31,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         };
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }),
   ],
   // Use JWT session (default)
   session: { strategy: "jwt" },
-}); 
+  // Add any custom callbacks or options here if needed
+});
+
+// Required environment variables:
+// - GOOGLE_CLIENT_ID
+// - GOOGLE_CLIENT_SECRET
+// - GITHUB_CLIENT_ID
+// - GITHUB_CLIENT_SECRET
+// - NEXTAUTH_SECRET
+// - DATABASE_URL 
