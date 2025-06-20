@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # Cursor Rules
 
 ## Instructions
@@ -36,15 +41,15 @@
 
 ### 2. Database and Authentication [ ]
 
-- [ ] Set up PostgreSQL database
-- [ ] Configure Prisma schema:
+- [X] Set up PostgreSQL database
+- [X] Configure Prisma schema:
   - User model
   - Product model
   - Category model
   - Order model
   - Review model
   - Cart model
-- [ ] Implement NextAuth.js authentication:
+- [] Implement NextAuth.js authentication:
   - Email/Password
   - OAuth providers (Google, GitHub)
   - JWT handling
@@ -52,12 +57,12 @@
 
 ### 3. Core Features - Customer Side [ ]
 
-- [ ] Home layout:
+- [X] Home layout:
     -Create 'home' folder in 'app' folder
      -Header with logo, search bar and navigation
      -Footer with links and social media icons
-- [ ] Navbar
-- [ ] Footer
+- [X] Navbar
+- [X] Footer
 - [ ] Sidebar
 - [ ]Product 
 - [ ] Product card
@@ -151,3 +156,11 @@
 - [ ] User guide
 - [ ] Admin documentation
 - [ ] Deployment guide
+
+
+
+
+
+
+
+
